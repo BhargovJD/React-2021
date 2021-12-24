@@ -1,10 +1,19 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
 import {v4 as uuidv4} from 'uuid';
 
 export default function TodoApp() {
-    const [todos, setTodos] = useState([]);
+
+    const initialTodos = JSON.parse(window.localStorage.getItem('todos')||"[]");
+
+    const [todos, setTodos] = useState(initialTodos);
+
+    // Local storage
+    useEffect(()=>{
+        // alert("IN USE EFFECt");
+        window.localStorage.setItem("todos",JSON.stringify(todos));
+    },[todos])
 
     // Insert
     const addTodo = (todoInput) =>{
