@@ -2,7 +2,7 @@ import A from './A';
 import './App.css';
 import B from './B';
 import C from './C';
-import React, { useReducer,useContext } from 'react';
+import React, { useReducer } from 'react';
 
 export const CountContext = React.createContext();
 
