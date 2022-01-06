@@ -5,6 +5,8 @@ import UseReducer from './components/UseReducer';
 import UseEffect from './components/UseEffect';
 import UseRef from './components/UseRef';
 import UseLayoutEffect from './components/UseLayoutEffect';
+import Parent from './components/UseImperativeHandle/Parent';
+import UseContext from './usecontext/UseContext';
 
 function App() {
   return (
@@ -14,7 +16,9 @@ function App() {
       {/* <UseReducer/> */}
       {/* <UseEffect/> */}
       {/* <UseRef/> */}
-      <UseLayoutEffect/>
+      {/* <UseLayoutEffect/> */}
+      {/* <Parent/> */}
+      <UseContext/>
     </div>
   );
 }
