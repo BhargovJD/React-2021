@@ -5,12 +5,15 @@ console.log(a)
 var a;
 
 
+//
 nameVar='bjd';
+
 function name() {
     console.log(nameVar);
 }
 
 name()
+
 var nameVar;
 
 // Variable initializations are not hoisted, only variable declarations are hoisted:
