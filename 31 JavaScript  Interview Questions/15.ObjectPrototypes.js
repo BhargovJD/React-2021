@@ -1,4 +1,4 @@
-// All javascript objects inherit properties from a prototype.
+// All javascript objects inherit properties from a prototype(class).
 
 // A prototype is a blueprint(class) of an object. Prototype allows us to use properties and methods on an object even if the properties and methods do not exist on the current object.
 

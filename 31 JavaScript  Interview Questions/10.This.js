@@ -10,4 +10,4 @@ var obj = {
     }
 }
 obj.getName();
-// getName function is a property of the object obj , therefore, the this keyword will refer to the object obj , and hence the output will be “vivek”.
+// getName function is a property of the object obj , therefore, the this keyword will refer to the object , and hence the output will be “vivek”.
