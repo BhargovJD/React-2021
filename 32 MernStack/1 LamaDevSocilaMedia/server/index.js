@@ -8,6 +8,7 @@ const morgan = require("morgan")
 
 const userRoute = require('./routes/user_routes')
 const authRoute = require('./routes/auth_routes')
+const postRoute = require('./routes/post_routes')
 
 dotenv.config()
 
@@ -31,6 +32,8 @@ app.use(morgan())
 app.use('/api/users', userRoute)
 
 app.use('/api/auth', authRoute)
+
+app.use('/api/posts', postRoute)
 
 
 app.listen(5000, ()=>{
