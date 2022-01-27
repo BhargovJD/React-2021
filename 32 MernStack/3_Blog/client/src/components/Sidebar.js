@@ -1,7 +1,23 @@
-import React from 'react';
 import dp from "../images/dp.jpg"
+import axios from 'axios'
+import React,{useEffect,useState} from 'react';
+import {BrowserRouter as Router, Routes, Route, Link, }  from 'react-router-dom'
+
 
 export default function Sidebar() {
+  const [cat, setCat] = useState([])
+
+
+  useEffect(()=>{
+    const getCats = async()=>{
+      const res = await axios.get('http://localhost:5000/api/categories')
+      // console.log(res)
+      setCat(res.data)
+    }
+    getCats()
+  },[])
+
+
   return <div >
 
     <div className='text-center'>
@@ -25,13 +41,12 @@ export default function Sidebar() {
 
   <div class="row">
 
-    <div class="col-6">
-      Muisc
-    </div>
+  {cat.map((c)=>(
+          <Link to={`/?cat=${c.name}`}> {c.name}</Link>
 
-    <div class="col-6">
-      Life
-    </div>
+    ))}
+
+
 
   </div>
 </div>

@@ -1,9 +1,14 @@
 import React from 'react';
 import Post from './Post';
+import Main from './Main';
 
-export default function Posts() {
+export default function Posts({posts}) {
   return <div>
-      <Post/>
-      <Post/>
+    {posts.map((p)=>(
+      <Post post={p}/>
+    ))}
+
+
+
   </div>;
 }
