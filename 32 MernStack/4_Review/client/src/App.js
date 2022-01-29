@@ -3,6 +3,7 @@ import Users from './pages/Users';
 import {BrowserRouter as Router, Routes,Route }  from 'react-router-dom'
 import NewPlace from './pages/NewPlace';
 import Navigation from './components/Navigation';
+import UserPlace from './pages/UserPlace';
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Users/>}  />
           <Route path="/places/new" element={<NewPlace/>}  />
+          <Route path="/:userId/places" element={<UserPlace/>}  />
         </Routes>
       </Router>
     </div>
