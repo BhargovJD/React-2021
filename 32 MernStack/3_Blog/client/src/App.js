@@ -8,10 +8,14 @@ import Upload from "./components/Upload";
 import {BrowserRouter as Router, Routes, Route, Link, }  from 'react-router-dom'
 import { Context,useContext } from './context/Context';
 
+import {useSelector} from 'react-redux'
+
+
 
 function App() {
+  const user = useSelector((state)=>state.user.value);
 
-  const {user} = useContext(Context)
+  const loggedin = {user}
   return (
     <div className="App">
       <Router>
@@ -26,7 +30,7 @@ function App() {
             <Route path="/" element={<Main/>} />
             <Route path="/upload" element={<Upload/>} />
             <Route path="/post-detail/:id" element={<SinglePost/>} />
-            <Route path="/login" element={<Login/>} />
+            <Route path="/login" element={loggedin?<Main/>:<Login/>} />
 
             <Route path="/signup" element={<Signup/>} />
 

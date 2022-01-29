@@ -4,9 +4,15 @@ import Sidebar from './Sidebar';
 import Posts from './Posts';
 import axios from 'axios'
 
+import {useSelector} from 'react-redux'
+
+
 export default function Main() {
   const [posts, setPosts] = useState([]);
   const {search} = useLocation();
+
+  const user = useSelector((state)=>state.user.value);
+
 
   useEffect(()=>{
     const fetchPosts = async()=>{
@@ -16,7 +22,7 @@ export default function Main() {
     }
     fetchPosts()
   },[search])
-  
+
   return <div>
       <div class="container">
   <div class="row">
@@ -28,6 +34,9 @@ export default function Main() {
         <br></br>
       <Posts posts={posts}/>
     </div>
+
+    <p>Name:{user}</p>
+
 
   </div>
 </div>
