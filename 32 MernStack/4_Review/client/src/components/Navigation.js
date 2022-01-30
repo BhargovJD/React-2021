@@ -1,7 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../context/authContext';
+import { useContext } from 'react';
 
 export default function Navigation() {
+  const auth = useContext(AuthContext);
+
+  const logoutHandler = (e) =>{
+    auth.logout()
+}
+
   return <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
   <div className="container-fluid">
@@ -19,21 +27,26 @@ export default function Navigation() {
           <a className="nav-link active" aria-current="page" href="#"><Link to="/">ALL USERS</Link></a>
         </li>
 
-        <li className="nav-item">
+       {auth.isLoggedIn && <li className="nav-item">
           <a className="nav-link active" aria-current="page" href="#"><Link to="/u1/places">MY PLACES</Link></a>
-        </li>
+        </li>}
 
-        <li className="nav-item">
+        {auth.isLoggedIn && <li className="nav-item">
           <a className="nav-link active" aria-current="page" href="#"><Link to="/places/new">ADD PLACE</Link></a>
-        </li>
+        </li>}
 
-        <li className="nav-item">
-          <a className="nav-link active" aria-current="page" href="#"><Link to="/auth">LOG IN</Link></a>
-        </li>
+        {!auth.isLoggedIn && <li className="nav-item">
+          <a className="nav-link active" aria-current="page" href="#"><Link to="/login">LOG IN</Link></a>
+        </li>}
 
-        <li className="nav-item">
-          <a className="nav-link active" aria-current="page" href="#"><Link to="/auth">SIGN UP</Link></a>
-        </li>
+        {!auth.isLoggedIn && <li className="nav-item">
+          <a className="nav-link active" aria-current="page" href="#"><Link to="/signup">SIGN UP</Link></a>
+        </li>}
+
+
+        {auth.isLoggedIn && <li className="nav-item">
+          <a onClick={logoutHandler} className="nav-link active" aria-current="page" href="#">Logout</a>
+        </li>}
 
 
 

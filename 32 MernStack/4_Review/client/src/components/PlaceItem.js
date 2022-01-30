@@ -1,7 +1,14 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import Modal from './Modal';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../context/authContext';
 
 export default function PlaceItem(props) {
+  const auth = useContext(AuthContext);
+
+  const deleteHandler = ()=>{
+    console.log("Deleting...")
+  }
   return <div>
       <Modal/>
       <li  className="list-group-item">
@@ -15,8 +22,18 @@ export default function PlaceItem(props) {
   <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
   VIEW ON MAP
 </button>
-  <button type="button" class="btn btn-warning">EDIT</button>
-  <button type="button" class="btn btn-danger">DELETE</button>
+
+  {auth.isLoggedIn && <button type="button" class="btn btn-warning"><Link to={`/places/${props.id}`}>Edit</Link></button>}
+
+  {auth.isLoggedIn && <button onClick={deleteHandler} type="button" class="btn btn-danger">DELETE</button>}
+
+
+  {/* <Link to={`/places/${props.id}`}>Edit</Link> */}
+
+  {/* <Link to={`${props.id}/places`}>
+           <img src={props.image} className="img-thumbnail rounded-circle" alt={props.image}/>
+           </Link> */}
+
 </div>
 
 
