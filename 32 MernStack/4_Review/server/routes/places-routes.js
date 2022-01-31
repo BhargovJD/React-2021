@@ -10,6 +10,11 @@ const placesControllers = require('../controllers/places-controllers')
 //     res.json({message: 'It Works'})
 // })
 
+// Get all places
+// http://localhost:5000/api/places/
+router.get('/',placesControllers.getPlaces)
+
+
 // Getting place by their id
 // http://localhost:5000/api/places/p2
 router.get('/:id',placesControllers.getPlaceById)
@@ -24,6 +29,16 @@ router.get('/user/:id',placesControllers.getPlaceByUserId)
 // Create new place
 // http://localhost:5000/api/places/create
 router.post('/create',placesControllers.createNewPlace)
+
+
+// Update place by id
+// http://localhost:5000/api/places/p1
+router.patch('/:id',placesControllers.updatePlaceById)
+
+
+// Delete place by id
+// http://localhost:5000/api/places/p1
+router.delete('/:id',placesControllers.deletePlaceById)
 
 
 
