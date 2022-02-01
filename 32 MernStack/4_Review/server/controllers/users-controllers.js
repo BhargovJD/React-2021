@@ -1,3 +1,7 @@
+const User = require('../models/user-model')
+const bcrypt = require("bcrypt");
+
+
 let DUMMY_USERS = [
     {
         id:'u1',
@@ -27,30 +31,53 @@ const getUsers = (req,res)=>{
 }
 
 // ..............................................
-const signup = (req,res)=>{
-    const {id,name,email,password} = req.body;
+// signup
 
-    if(id,name,email,password === ""){
-        return res.json({message:"All fields are required"})
+// let existingUser
+//     try{
+//         existingUser = await User.findOne({email:email})
+//     }
+//     catch{
+//          res.json("Something went wrong try again...");
+//     }
+
+//     if(existingUser){
+//         res.json("Account already exist");
+//     }
+const signup = async (req, res) => {
+    try {
+
+      const salt = await bcrypt.genSalt(10);
+      const hashedPass = await bcrypt.hash(req.body.password, salt);
+      const email = req.body.email;
+
+    let existingUser
+    try{
+        existingUser = await User.findOne({email:email})
+    }
+    catch{
+         res.json("Something went wrong try again...");
     }
 
-    const hasUser = DUMMY_USERS.find(u=>u.email === email)
-    if(hasUser){
-        // invalid user input so 422
-        res.status(422).json({message:"Email already exist!"})
+    if(existingUser){
+        res.json("Account already exist");
     }
 
-    const createdUser = {
-        id:id,
-        name:name,
-        email:email,
-        password:password
-    }
+      const newUser = new User({
+        name: req.body.name,
+        email: email,
+        password: hashedPass,
+        image:req.body.image,
+        places:req.body.places
+      });
 
-    DUMMY_USERS.push(createdUser)
-    // Created new data so 200
-    res.status(201).json({new_users: DUMMY_USERS})
-}
+      const user = await newUser.save();
+      res.status(200).json(user);
+    }
+    catch (err) {
+      res.status(500).json(err);
+    }
+  }
 
 // ...........................................................
 const login = (req,res)=>{

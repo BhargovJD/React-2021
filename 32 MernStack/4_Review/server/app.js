@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
 
 // importing routes
 const placesRoutes = require('./routes/places-routes')
@@ -15,4 +16,4 @@ app.use('/api/users/',usersRoutes)
 
 
 // starting server
-app.listen(5000)
+mongoose.connect('mongodb+srv://admin:qwertymong0@cluster0.et3ce.mongodb.net/hotel_listing?retryWrites=true&w=majority').then(()=>{app.listen(5000)}).catch((err)=>{console.log(err)})

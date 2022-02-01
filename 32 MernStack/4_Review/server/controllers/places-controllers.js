@@ -1,3 +1,5 @@
+const Place = require('../models/place-model')
+
 let DUMMY_PLACES = [
     {
         id:'p1',
@@ -28,91 +30,100 @@ const getPlaces = (req,res)=>{
 }
 // ..........................
 // Get place by place id
-const getPlaceById = (req,res)=>{
+const getPlaceById = async (req,res)=>{
+
     const placeId = req.params.id
-    const place  = DUMMY_PLACES.find((p)=>{
-        return p.id == placeId
-    })
-
-    if(!place){
-        return res.status(404).json({message:"Could not find a place for the provided id."})
+    try{
+        const place  = await  Place.findById(placeId)
+        res.status(200).json(place);
     }
-
-    res.json({place: place})
-
-}
+    catch (err) {
+        res.status(500).json(err);
+      }
+    };
 
 // .................................................
 // Get places by createdBy id
-const getPlaceByUserId = (req,res)=>{
-    const userId = req.params.id
-    const place  = DUMMY_PLACES.filter((p)=>{
-        return p.createdBy == userId
-    })
-
-    if(!place || place.length === 0){
-        return res.status(404).json({message:"Could not find a place for the provided createdBy id."})
+const getPlaceByUserId = async (req,res)=>{
+    try{
+        const userId = req.params.id
+        const place  = await Place.find({posted_by:userId})
+        res.status(200).json(place);
     }
-
-    res.json({place: place})
-
+    catch (err) {
+        res.status(500).json(err);
+    }
 }
 // ..................................................
 // Adding new place
-const createNewPlace = (req,res)=>{
+const createNewPlace = async (req,res)=>{
 
-    const {id,title,desc,createdBy} = req.body
-
-    const createdPlace = {
-        id:id,
-        title:title,
-        desc:desc,
-        createdBy:createdBy
+    const newPlace = new Place(req.body);
+    try{
+        const savedPlace = await newPlace.save();
+        res.status(200).json(savedPlace)
     }
-
-    const added = DUMMY_PLACES.push(createdPlace);
-
-    if(!added){
-        return res.status(404).json({message:"Failed added operation"})
+    catch(err){
+        res.status(500).json(err);
     }
-
-    res.status(201).json({new_place: createdPlace})
-
 }
 
 // ..........................................................
 // Edit place by id
-const updatePlaceById  = (req,res)=>{
-    const {title,desc} = req.body;
+const updatePlaceById  = async (req,res)=>{
+    const {title,description} = req.body;
+
     const placeId = req.params.id;
 
-    if(title,desc === ""){
+    if(title,description === ""){
         return res.json({message:"All fields are required"})
     }
 
-    const updatedPlace  = {...DUMMY_PLACES.find(p=>p.id === placeId)}
-    const placeIndex = DUMMY_PLACES.findIndex(p=>p.id === placeId);
+    let place;
+    try{
+        place = await Place.findById(placeId)
+    }
+    catch(err){
+        res.status(500).json(err);
+    }
 
-    updatedPlace.title = title;
-    updatedPlace.desc = desc;
+    place.title = title;
+    place.description = description;
 
-    DUMMY_PLACES[placeIndex] = updatedPlace
+    try{
+        await place.save()
+        res.status(200).json({place});
 
-    res.status(200).json({place: updatedPlace})
+    }
+    catch (err) {
+        res.status(500).json(err);
+      }
+
 
 }
 
 
 // Delete place by id
-const deletePlaceById  = (req,res)=>{
+const deletePlaceById  = async (req,res)=>{
     const placeId = req.params.id;
 
-    if(!DUMMY_PLACES.find(p=>p.id === placeId)){
-        return res.json({messege:"post is not available.."})
+    let place;
+    try{
+        place = await Place.findById(placeId)
+    }
+    catch{
+        res.status(200).json({message:"No place detected"});
     }
 
-    DUMMY_PLACES = DUMMY_PLACES.filter(p=>p.id !== placeId)
-    res.status(200).json({new_place: DUMMY_PLACES})
+    try{
+        await place.remove()
+        res.status(200).json({message:"Deleted..."});
+    }
+    catch {
+        // res.status(500).json(err);
+        res.status(200).json({message:"Something went wrong..."});
+      }
+
 
 }
 
@@ -124,4 +135,3 @@ exports.getPlaceByUserId = getPlaceByUserId;
 exports.createNewPlace = createNewPlace;
 exports.updatePlaceById = updatePlaceById;
 exports.deletePlaceById = deletePlaceById;
-
