@@ -1,7 +1,37 @@
-import React from 'react';
+import React,{useState} from 'react';
+import { createPost } from '../service/api';
+import { useNavigate } from 'react-router';
+
+
 
 
 export default function CreatePost() {
+  const navigate = useNavigate();
+
+
+
+  const initialValues = {
+    title:"",
+    description:"",
+    picture:"",
+    username:"Bhargov",
+    categories:"All",
+    createdDate: new Date()
+  }
+
+  const [post,setPost] = useState(initialValues)
+
+  const handleInput = (e)=>{
+    setPost({...post, [e.target.name]: e.target.value})
+  }
+
+
+  const savePost = async () =>{
+    await createPost(post);
+    navigate('/')
+
+  }
+
   return <div>
 
 <div class="d-flex align-items-center flex-column  bd-highlight mb-3">
@@ -13,20 +43,20 @@ export default function CreatePost() {
 </div>
     </div>
   <div class="p-2 bd-highlight text-center">
-  <form>
+  {/* <form> */}
   <div class="mb-3">
     <label for="" class="form-label">Title</label>
-    <input type="text" class="form-control" id="" aria-describedby=""/>
+    <input name='title' onChange={(e)=>handleInput(e)} type="text" class="form-control" id="" aria-describedby=""/>
   </div>
 
   <div class="mb-3">
     <label for="" class="form-label">Description</label>
-    <textarea type="text" class="form-control" id="" aria-describedby=""/>
+    <textarea name='description' onChange={(e)=>handleInput(e)} type="text" class="form-control" id="" aria-describedby=""/>
   </div>
 
 
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+  <button onClick={()=>{savePost()}} type="submit" class="btn btn-primary">Submit</button>
+{/* </form> */}
     </div>
 </div>
 
