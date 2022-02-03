@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import UsersList from '../components/UsersList';
 
 export default function Users() {
@@ -17,7 +17,35 @@ export default function Users() {
             places:3
         },
     ]
+
+    const[isLoading, setIsLoading] = useState(false)
+    const[loadedUser, setLoadedUser] = useState([])
+
+    useEffect(()=>{
+        const sendRequest = async ()=>{
+            setIsLoading(true)
+
+            try{
+            const response = await fetch('http://localhost:5000/api/users/');
+            const responseData = await response.json()
+
+            setLoadedUser(responseData.user)
+
+            setIsLoading(false)
+            }
+            catch(err){
+                setIsLoading(false)
+                console.log(err.message)
+            }
+
+        }
+        sendRequest()
+    },[])
+
   return <div>
-      <UsersList item={USERS}/>
+      {isLoading ? <div class="spinner-border text-primary" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>: <UsersList item={loadedUser}/>}
+
   </div>;
 }

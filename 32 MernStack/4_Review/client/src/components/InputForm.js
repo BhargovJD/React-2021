@@ -4,16 +4,42 @@ export default function InputForm() {
   const[title, setTitle] = useState("");
   const[desc, setDesc] = useState("");
   const[address, setAddress] = useState("");
+  const[postedBy,setPostedBy]=useState("")
+
+  const[isLoading, setIsLoading] = useState(false)
+
 
 
   // console.log(title,desc)
 
-  const handleSubmit = (e) =>{
+  const handleSubmit = async (e) =>{
     e.preventDefault();
-    // Send to backend
-    console.log(title,desc,address)
-}
+    try{
+      setIsLoading(true)
+      const response = await fetch('http://localhost:5000/api/places/create', {
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json'
+        },
 
+        body:JSON.stringify({
+          title:title,
+          description:desc,
+          image:"image.jpg",
+          address:address,
+          posted_by:postedBy
+        })
+      });
+
+      const resData = await response.json()
+      console.log(resData)
+    }
+
+    catch(err){
+      console.log(err)
+    }
+    setIsLoading(false)
+}
 
 
   return <div>

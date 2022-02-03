@@ -7,24 +7,43 @@ export default function Login() {
 const auth = useContext(AuthContext);
 const navigation = useNavigate();
 
+const[isLoading, setIsLoading] = useState(false)
+
 
 
   const[email, setEmail] = useState("");
   const[pass, setPass] = useState("");
 
 
-  // console.log(title,desc)
 
-  const handleSubmit = (e) =>{
+  const handleSubmit = async (e) =>{
     e.preventDefault();
-    // Send to backend
-    console.log("email"+ email+"password"+pass)
+    try{
+      setIsLoading(true)
+      const response = await fetch('http://localhost:5000/api/users/login', {
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json'
+        },
 
-    auth.login()
+        body:JSON.stringify({
+          email:email,
+          password:pass,
+        })
+      });
+
+      const resData = await response.json()
+      console.log(resData)
+    }
+
+    catch(err){
+      console.log(err)
+    }
+    setIsLoading(false)
+
+    auth.login(resData.user._id)
 
     navigation("/")
-
-
 }
 
 

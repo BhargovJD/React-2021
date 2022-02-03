@@ -9,17 +9,57 @@ export default function Signup() {
 
   const navigation = useNavigate();
 
-
+  const[isLoading, setIsLoading] = useState(false)
+  const[error, setError] = useState(null)
 
   // console.log(title,desc)
 
-  const handleSubmit = (e) =>{
+  const handleSubmit = async (e) =>{
     e.preventDefault();
     // Send to backend
-    console.log("name"+name+"email"+ email+"password"+pass)
+    // console.log("name"+name+"email"+ email+"password"+pass)
 
-    navigation("/login")
+    try{
+
+      setIsLoading(true)
+      setError(null)
+
+      const response = await fetch('http://localhost:5000/api/users/signup', {
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json'
+        },
+
+        body:JSON.stringify({
+          name:name,
+          email:email,
+          password:pass,
+          "image":"img.jpg"
+        })
+      });
+      const responseData =  await response.json()
+      console.log(responseData);
+      setError(responseData)
+
+      // if(!response.ok){
+
+      // }
+    }
+
+    catch(err){
+      console.log(err)
+
+      // setError(err.message || 'Something went wrong please try again...')
+    }
+
+    setIsLoading(false)
+
+
+
+    // navigation("/login")
 }
+
+
 
 
 
@@ -44,6 +84,11 @@ export default function Signup() {
 
 
 
+
+  {isLoading && <div class="spinner-border" role="status">
+  <span class="visually-hidden">Loading...</span>
+  </div>}
+  <br></br>
 
   <button type="submit" className="btn btn-primary">Signup</button>
 </form>
