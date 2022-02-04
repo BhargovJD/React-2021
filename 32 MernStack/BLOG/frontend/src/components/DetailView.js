@@ -32,7 +32,7 @@ export default function DetailView() {
 
 <div class="d-flex align-items-center flex-column  bd-highlight mb-3">
   <div class="">
-    <img src={post.picture || pictureUrl} alt="..." class="img-thumbnail h-10"/>
+    {/* <img src={post.picture || pictureUrl} alt="..." class="img-thumbnail h-10"/> */}
 
     </div>
   <div class="p-2 bd-highlight">

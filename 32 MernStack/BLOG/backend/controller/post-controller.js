@@ -74,3 +74,4 @@ export const deletePost = async (req,res)=>{
     }
 
 }
+

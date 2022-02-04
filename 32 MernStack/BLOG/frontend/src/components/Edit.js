@@ -52,7 +52,7 @@ export default function Edit() {
 
 <div class="d-flex align-items-center flex-column  bd-highlight mb-3">
   <div class="p-2 bd-highlight">
-    <img src={post.picture || pictureUrl} class="rounded" alt="..."/>
+    {/* <img src={post.picture || pictureUrl} class="rounded" alt="..."/> */}
   </div>
   <div class="p-2 bd-highlight">
   <div class="input-group mb-3">
