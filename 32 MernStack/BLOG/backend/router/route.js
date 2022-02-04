@@ -1,5 +1,5 @@
 import express from 'express'
-import { createPost,getAllPosts,getPost,editPost } from '../controller/post-controller.js'
+import { createPost,getAllPosts,getPost,editPost,deletePost } from '../controller/post-controller.js'
 
 const router = express.Router()
 
@@ -15,5 +15,7 @@ router.get('/post/:id',getPost)
 // Update a post
 router.post('/update/:id',editPost)
 
+// Delete a post
+router.delete('/delete/:id',deletePost)
 
 export default router

@@ -38,9 +38,9 @@ export default function Edit() {
     setPost({...post, [e.target.name]: e.target.value})
   }
 
-  const editPost = async () =>{
+  const updatePost = async () =>{
     await editPost(id, post);
-    // navigate('/')
+    navigate(`/blog-detail/${post._id}`)
 
   }
 
@@ -73,7 +73,7 @@ export default function Edit() {
   </div>
 
 
-  <button onClick={()=>{editPost()}} type="submit" class="btn btn-primary">Submit</button>
+  <button onClick={()=>{updatePost()}} type="submit" class="btn btn-primary">Submit</button>
 {/* </form> */}
     </div>
 </div>

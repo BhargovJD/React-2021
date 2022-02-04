@@ -1,4 +1,6 @@
 import Post from '../Schemas/post-schema.js'
+// import Posts from './../../frontend/src/components/Posts';
+// import { categories } from './../../frontend/src/constants/data';
 
 // Create post
 export const createPost = async (req,res)=>{
@@ -17,8 +19,18 @@ export const createPost = async (req,res)=>{
 
 // Get all posts
 export const getAllPosts = async (req,res) =>{
+    const username = req.query.username;
+    const category = req.query.category;
+    let posts;
+
     try{
-        let posts = await Post.find({})
+        if(username)
+            posts = await Post.find({username:username})
+        else if(category)
+            posts = await Post.find({categories:category})
+        else
+            posts = await Post.find({})
+
         res.status(200).json(posts)
     }
     catch(error){
@@ -41,8 +53,21 @@ export const getPost = async (req,res) =>{
 export const editPost = async (req,res)=>{
     // console.log(req.body)
     try{
-        await new Post.findByIdAndUpdate(req.params.id,{$set:req.body})
+        await  Post.findByIdAndUpdate(req.params.id,{$set:req.body})
         res.status(200).json("Blog updated successfully")
+    }
+    catch(error){
+        res.status(500).json(error)
+    }
+
+}
+
+// delete a post
+export const deletePost = async (req,res)=>{
+    // console.log(req.body)
+    try{
+        await  Post.findByIdAndDelete(req.params.id)
+        res.status(200).json("Blog deleted successfully")
     }
     catch(error){
         res.status(500).json(error)

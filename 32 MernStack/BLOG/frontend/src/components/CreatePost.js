@@ -28,6 +28,7 @@ export default function CreatePost() {
 
   const savePost = async () =>{
     await createPost(post);
+    alert("Blog submitted")
     navigate('/')
 
   }

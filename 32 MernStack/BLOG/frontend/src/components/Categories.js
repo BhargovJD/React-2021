@@ -20,7 +20,8 @@ export default function Categories() {
      {
          categories.map(cat=>(
             <tr>
-             <td>{cat}</td>
+              <Link to={`/?category=${cat}`}><td>{cat}</td></Link>
+
              </tr>
          ))
      }
