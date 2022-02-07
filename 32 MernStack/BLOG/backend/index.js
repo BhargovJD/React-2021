@@ -1,22 +1,33 @@
-import express from 'express'
-import connection from './database/db.js'
-import Router from './router/route.js'
-import cors from 'cors'
-import bodyParser from 'body-parser'
-
+const express = require("express");
 const app = express()
+const mongoose = require("mongoose");
+const cors = require("cors");
+const todosRoute = require("./routers/todos-routes");
+
+
+require("dotenv").config();
 
 app.use(cors())
 app.use(express.json())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended:true }))
 
-app.use('/',Router)
-const PORT = 8000
+// routes(middleware)
+app.use("/api/todos/",todosRoute)
 
-app.listen(PORT,()=>{
-    console.log(`Server is running on port ${PORT}`)
+app.get("/", (req, res) => {
+    res.send("welcome to the todos api...");
+  });
+
+// const db = process.env.DB_URL
+const port = process.env.port||5000
+
+app.listen(port, ()=>{
+    console.log(`Server running on port ${port}`)
 })
 
-
-connection()
+mongoose.connect("mongodb+srv://admin:qwertymong0@cluster0.vy0sa.mongodb.net/todo_db?retryWrites=true&w=majority")
+.then(()=>{
+    console.log("DB Connected!")
+})
+.catch((error)=>{
+    console.log("DB Connection failed:", error.message)
+})
