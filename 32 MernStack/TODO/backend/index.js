@@ -4,9 +4,10 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const todosRoute = require("./routers/todos-routes");
 const signupRoute = require("./routers/user-signup-routes");
+const loginRoute = require("./routers/user-login-routes");
 
 
-// require("dotenv").config();
+require("dotenv").config();
 
 app.use(cors())
 app.use(express.json())
@@ -14,6 +15,7 @@ app.use(express.json())
 // routes(middleware)
 app.use("/api/todos/",todosRoute)
 app.use("/api/signup/",signupRoute)
+app.use("/api/login/",loginRoute)
 
 app.get("/", (req, res) => {
     res.send("welcome to the todos api...");

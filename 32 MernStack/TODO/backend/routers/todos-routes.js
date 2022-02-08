@@ -2,6 +2,7 @@ const { Todo } = require("../models/todo-model");
 const express = require("express");
 const router = express.Router();
 const Joi = require("joi");
+const authMiddleware = require("../middleware/auth-middleware")
 
 // CREATE POST
 router.post("/", async (req, res) => {
@@ -48,6 +49,7 @@ router.get("/", async(req,res)=>{
   try{
     const todos= await Todo.find().sort({date:-1})
     res.send(todos)
+    // console.log(req.user)
   }
   catch(error){
     res.status(500).send(error.message)
@@ -63,7 +65,7 @@ router.delete("/:id", async(req,res)=>{
       return res.status(404).send("Todo not found")
     }
 
-    
+
     const deletedTodo = await Todo.findByIdAndDelete(req.params.id)
     res.send(deletedTodo)
   }

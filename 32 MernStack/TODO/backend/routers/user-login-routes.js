@@ -1,14 +1,12 @@
 const bcrypt = require("bcrypt");
-const { User } = require("../models/user-model");
 const jwt = require("jsonwebtoken");
+const { User } = require("../models/user-model");
 const Joi = require("joi");
 const express = require("express");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-
   const schema = Joi.object({
-    name: Joi.string().min(3).max(30).required(),
     email: Joi.string().min(3).max(200).required().email(),
     password: Joi.string().min(6).required(),
   });
@@ -17,22 +15,16 @@ router.post("/", async (req, res) => {
 
   if (error) return res.status(400).send(error.details[0].message);
 
-
-  try{
-
+  try {
     let user = await User.findOne({ email: req.body.email });
-    if (user){
-      return res.status(400).send("User already exists...");
-    }
+    if (!user) return res.status(400).send("Invalid email or password...");
 
-    const { name, email, password } = req.body;
-
-    user = new User({ name, email, password });
-
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(user.password, salt);
-
-    await user.save();
+    const validPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    if (!validPassword)
+      return res.status(400).send("Invalid email or password...");
 
     const jwtSecretKey = process.env.SECRET_KEY;
     const token = jwt.sign(
@@ -41,14 +33,11 @@ router.post("/", async (req, res) => {
     );
 
     res.send(token);
-    // res.send(user);
-  }
 
-  catch(error){
-    res.status(500).send(error.message)
-    console.log(error.message)
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error.message);
   }
-
-})
+});
 
 module.exports = router;
