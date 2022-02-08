@@ -1,26 +1,27 @@
 import './App.css';
-import {BrowserRouter as Router, Routes, Route, Link, }  from 'react-router-dom'
-import Navbar from './components/Navbar';
-import Home from './components/Home';
-import DetailView from './components/DetailView';
-import CreatePost from './components/CreatePost';
-import Edit from './components/Edit';
+import {BrowserRouter as Router, Routes, Route }  from 'react-router-dom'
+import Navbar from './components/navbar/Navbar';
+import Login from './components/auth/Login';
+import Signup from './components/auth/Signup';
+import Todos from './components/todos/Todos';
+
 
 function App() {
   return (
-    <div>
+    <div className="App">
       <Router>
-
+        
         <Navbar/>
 
           <Routes>
-            <Route path="/" element={<Home/>} />
-            <Route path="/create" element={<CreatePost/>} />
-            <Route path="/blog-detail/:id" element={<DetailView/>} />
-            <Route path="/edit/:id" element={<Edit/>} />
+            <Route path="/" element={<Todos/>} />
+            <Route path="/login" element={<Login/>} />
+            <Route path="/signup/" element={<Signup/>} />
+            {/* <Route path="*" element={<ErrorPage/>} /> */}
           </Routes>
 
-     </Router>
+      </Router>
+
     </div>
   );
 }
