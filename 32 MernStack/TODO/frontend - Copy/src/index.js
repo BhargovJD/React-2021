@@ -3,23 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {createStore, applyMiddleware} from 'redux';
-// import thunk from "redux-thunk"
-// import rootReducer from './store/reducers/rootReducer';
-import { Provider } from 'react-redux';
-import userReducer from "./features/user-feature"
-import { configureStore } from '@reduxjs/toolkit';
 
-const store = configureStore({
-  reducer:{
-    user:userReducer
-  }
-})
 
 ReactDOM.render(
-  <Provider store = {store}>
+  <>
         <App />
-  </Provider>,
+  </>,
   document.getElementById('root')
 );
 

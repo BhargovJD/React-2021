@@ -1,10 +1,10 @@
 import React from 'react';
+import Todo from './Todo';
 
 function ListTodos() {
   return <div>
-      <div className="container">
-        <h2>List</h2>
-      </div>
+    <br></br>
+      <Todo/>
 
   </div>;
 }
