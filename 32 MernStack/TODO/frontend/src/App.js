@@ -9,6 +9,7 @@ import EditTodo from './components/todos/EditTodo';
 
 import { useDispatch } from "react-redux";
 import { useSelector } from 'react-redux';
+import ErrorPage from './components/ErrorPage';
 
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
             <Route path="/login" element={!loggedUserEmail.userActive?<Login/>:<Todos/>} />
             <Route path="/signup/" element={!loggedUserEmail.userActive?<Signup/>:<Todos/>}/>
             <Route path="/edit/:todo_id" element={<EditTodo/>} />
-            {/* <Route path="*" element={<ErrorPage/>} /> */}
+            <Route path="*" element={<ErrorPage/>} />
           </Routes>
 
       </Router>

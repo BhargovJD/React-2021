@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import {fetchOn} from '../../features/fetch-reducer'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -26,7 +28,7 @@ const fetchCondition = useSelector((state)=>state.fetchReducer.value)
 
   const handleSubmit = async (e)=>{
     e.preventDefault();
-    console.log(title,author)
+    // console.log(title,author)
 
     try{
       setLoading(true)
@@ -36,26 +38,45 @@ const fetchCondition = useSelector((state)=>state.fetchReducer.value)
         isComplete:false
       })
 
-      console.log(res.data)
+      // console.log(res.data)
+
       setLoading(false)
       dispatch(fetchOn(fetchCondition?false:true))
+
+      setTitle("")
 
     }
     catch(err){
       console.log(err.response)
+      toast.error(err.response.data, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        });
+        setLoading(false)
 
     }
+
+    // setTitle("")
   }
 
 
 
   return <div>
 <div className="container">
+<ToastContainer
+
+/>
+<ToastContainer />
 
       <form onSubmit={handleSubmit}>
   <div class="mb-3">
 
-    <input value={title.value} name='title' onChange={(e)=>setTitle(e.target.value)} type="text" class="form-control" id="" placeholder='add a todo...' aria-describedby=""/>
+    <input name='title' value={title} onChange={(e)=>setTitle(e.target.value)} type="text" class="form-control" id="" placeholder='todo title...' aria-describedby=""/>
   </div>
 
 

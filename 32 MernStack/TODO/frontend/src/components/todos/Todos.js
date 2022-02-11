@@ -17,7 +17,7 @@ function Todos() {
   useEffect(()=>{
     const fetchPosts = async()=>{
       const res = await axios.get('http://localhost:5000/api/todos')
-      console.log(res)
+      // console.log(res)
       setTodos(res.data)
     }
     fetchPosts()

@@ -3,15 +3,27 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import {fetchOn} from '../../features/fetch-reducer'
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function EditTodo() {
+  const nav = useNavigate()
   const  {todo_id}  = useParams();
-  console.log("todo id:"+todo_id)
+  // console.log("todo id:"+todo_id)
+
+  const dispatch = useDispatch()
+  const fetchCondition = useSelector((state)=>state.fetchReducer.value)
 
 
   const [title, setTitle] = useState("")
   const[todo, setTodo] = useState("")
+
+  const [loading, setLoading] = useState(false)
+
 
   const loggedUserEmail = useSelector((state)=>state.user.value)
   const author = loggedUserEmail.currentUserEmail
@@ -19,20 +31,36 @@ function EditTodo() {
 
   const handleSubmit = async (e)=>{
     e.preventDefault();
-    console.log(title)
+    // console.log(title)
 
 
     try{
+      setLoading(true)
+
       const res = await axios.put(`http://localhost:5000/api/todos/${todo_id}`,{
         title:title,
         author:author
       })
 
-      console.log(res.data)
+      setLoading(false)
+
+      dispatch(fetchOn(fetchCondition?false:true))
+      // console.log(res.data)
+      nav("/")
 
     }
     catch(err){
       console.log(err.response)
+      toast.error(err.response.data, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        });
+        setLoading(false)
 
     }
   }
@@ -53,6 +81,10 @@ function EditTodo() {
   return <div>
       <br></br>
 <div className="container">
+<ToastContainer
+
+/>
+<ToastContainer />
 
       <form onSubmit={handleSubmit}>
   <div class="mb-3">
@@ -61,7 +93,9 @@ function EditTodo() {
   </div>
 
 
-  <button type="submit" class="btn btn-warning">Edit Todo</button>
+  {loading? <div class="spinner-border text-primary" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>: <button type="submit" class="btn btn-warning">Edit Todo</button>}
 </form>
 
 </div>
