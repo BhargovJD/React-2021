@@ -8,11 +8,13 @@ import {createStore, applyMiddleware} from 'redux';
 // import rootReducer from './store/reducers/rootReducer';
 import { Provider } from 'react-redux';
 import userReducer from "./features/user-feature"
+import fetchReducer from "./features/fetch-reducer"
 import { configureStore } from '@reduxjs/toolkit';
 
 const store = configureStore({
   reducer:{
-    user:userReducer
+    user:userReducer,
+    fetchReducer:fetchReducer
   }
 })
 

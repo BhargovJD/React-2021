@@ -1,12 +1,19 @@
 import React,{useState} from 'react';
-// import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 // import { addTodo } from '../../store/actions/todoActions';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import {fetchOn} from '../../features/fetch-reducer'
+
 
 
 function AddTodo() {
   const [title, setTitle] = useState("")
+  const [loading, setLoading] = useState(false)
+
+const dispatch = useDispatch()
+
+const fetchCondition = useSelector((state)=>state.fetchReducer.value)
 
 
   const loggedUserEmail = useSelector((state)=>state.user.value)
@@ -22,15 +29,20 @@ function AddTodo() {
     console.log(title,author)
 
     try{
+      setLoading(true)
       const res = await axios.post("http://localhost:5000/api/todos",{
         title:title,
-        author:author
+        author:author,
+        isComplete:false
       })
 
       console.log(res.data)
+      setLoading(false)
+      dispatch(fetchOn(fetchCondition?false:true))
+
     }
     catch(err){
-      console.log(err)
+      console.log(err.response)
 
     }
   }
@@ -47,7 +59,10 @@ function AddTodo() {
   </div>
 
 
-  <button type="submit" class="btn btn-primary">Add Todo</button>
+
+  {loading? <div class="spinner-border text-primary" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>: <button type="submit" class="btn btn-primary">Add Todo</button>}
 </form>
 
 </div>

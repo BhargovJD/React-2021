@@ -24,7 +24,7 @@ function App() {
             <Route path="/" element={!loggedUserEmail.userActive?<Login/>:<Todos/>} />
             <Route path="/login" element={!loggedUserEmail.userActive?<Login/>:<Todos/>} />
             <Route path="/signup/" element={!loggedUserEmail.userActive?<Signup/>:<Todos/>}/>
-            <Route path="/edit/" element={<EditTodo/>} />
+            <Route path="/edit/:todo_id" element={<EditTodo/>} />
             {/* <Route path="*" element={<ErrorPage/>} /> */}
           </Routes>
 

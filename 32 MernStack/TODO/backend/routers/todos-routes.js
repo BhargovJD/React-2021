@@ -57,6 +57,19 @@ router.get("/", async(req,res)=>{
   }
 })
 
+// Get a todo
+router.get("/:id", async(req,res)=>{
+
+  try{
+    const todo= await Todo.findById(req.params.id);
+    res.send(todo)
+  }
+  catch(error){
+    res.status(500).send(error.message)
+    console.log(error.message)
+  }
+})
+
 // DELETE TODO
 router.delete("/:id", async(req,res)=>{
   try{

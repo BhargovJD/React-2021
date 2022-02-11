@@ -1,10 +1,16 @@
 import React from 'react';
 import Todo from './Todo';
+// import { useSelector } from 'react-redux';
 
-function ListTodos() {
+function ListTodos({todos}) {
   return <div>
     <br></br>
-      <Todo/>
+
+
+    {todos.map((t)=>(
+        <Todo todo={t} id={t._id} key={t._id}/>
+    ))}
+
 
   </div>;
 }
