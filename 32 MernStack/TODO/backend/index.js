@@ -22,11 +22,12 @@ app.get("/", (req, res) => {
   });
 
 // const db = process.env.DB_URL
-const port = process.env.port||5000
+// const port = process.env.PORT || 5000
 
-app.listen(port, ()=>{
-    console.log(`Server running on port ${port}`)
+app.listen(process.env.PORT || 8000, ()=>{
+    console.log(`Server running`)
 })
+
 
 mongoose.connect("mongodb+srv://admin:qwertymong0@cluster0.vy0sa.mongodb.net/todo_db?retryWrites=true&w=majority")
 .then(()=>{

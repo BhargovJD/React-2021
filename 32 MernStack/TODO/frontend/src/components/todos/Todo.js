@@ -49,7 +49,7 @@ function Todo({todo,id}) {
           <li class="list-group-item">
             <h5>{todo.title}</h5>
             <p>{id}</p>
-            <div className="text-secondary"><span><b>by:</b> {todo.author} </span><span><b>added:</b> {new Date(todo.date).toDateString()}</span></div>
+            <div className="text-secondary"><span><b>added:</b> {new Date(todo.date).toDateString()}</span></div>
             <div
               class="btn-group btn-sm"
               role="group"

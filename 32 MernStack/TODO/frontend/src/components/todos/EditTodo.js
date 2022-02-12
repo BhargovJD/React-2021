@@ -70,7 +70,7 @@ function EditTodo() {
   useEffect(()=>{
     const fetchPosts = async()=>{
       const res = await axios.get(`http://localhost:5000/api/todos/${todo_id}`)
-      console.log("One"+res.data.title)
+      // console.log("One"+res.data.title)
       const preData = res.data.title
       setTodo(preData)
     }

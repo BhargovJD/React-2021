@@ -48,8 +48,8 @@ function Todo({todo,id}) {
       {check? <ul class="list-group">
           <li class="list-group-item">
             <h5>{todo.title}</h5>
-            <p>{id}</p>
-            <div className="text-secondary"><span><b>by:</b> {todo.author} </span><span><b>added:</b> {new Date(todo.date).toDateString()}</span></div>
+            {/* <p>{id}</p> */}
+            <div className="text-secondary"><span><b>added:</b> {new Date(todo.date).toDateString()}</span></div>
             <div
               class="btn-group btn-sm"
               role="group"
