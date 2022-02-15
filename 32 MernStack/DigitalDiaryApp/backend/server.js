@@ -9,11 +9,11 @@ app.get("/", (req, res) => {
   res.send("This is home page");
 });
 
-app.get("/diary-notes", (req, res) => {
+app.get("/api/diary-notes", (req, res) => {
   res.json({ notes });
 });
 
-app.get("/diary-notes/:id", (req, res) => {
+app.get("/api/diary-notes/:id", (req, res) => {
   const note = notes.find((n) => n._id === req.params.id);
   // res.json(req.params);
   res.send(note);
