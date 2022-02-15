@@ -1,9 +1,14 @@
 const express = require("express");
 const notes = require("./data/notes");
 const dotenv = require("dotenv");
+const cors = require("cors");
+const connDb = require("./config/db");
 
 const app = express();
+app.use(cors());
+
 dotenv.config();
+connDb();
 
 app.get("/", (req, res) => {
   res.send("This is home page");

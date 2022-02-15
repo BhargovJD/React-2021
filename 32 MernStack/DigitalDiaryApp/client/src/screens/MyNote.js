@@ -1,17 +1,25 @@
 import React, { useEffect } from "react";
-import notes from "../data/notes";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Edit from "./Edit";
 
 function MyNote() {
+  const [notes, setNotes] = useState([]);
 
-    const fetchNotes = async()=>{
-        const data = await axios.get('api/diary-notes/')
-        console.log(data)
-    }
+  const fetchNotes = async () => {
+    const { data } = await axios.get(
+      "https://jsonplaceholder.typicode.com/posts"
+    );
+    setNotes(data);
+  };
+
+  console.log(notes);
+
   useEffect(() => {
-    fetchNotes()
-});
+    fetchNotes();
+  }, []);
+
   return (
     <div>
       <div className="container">
@@ -25,7 +33,7 @@ function MyNote() {
       </div>
 
       {notes.map((note) => (
-        <div className="container ">
+        <div key={note.id} className="container ">
           <div className="row">
             <div className="col ">
               <div class="card">
@@ -35,7 +43,7 @@ function MyNote() {
                   <div
                     class="btn-group"
                     role="group"
-                    aria-label="Basic mixed styles example"
+                    aria-label="Basic mixed styles example d-flex justify-content-between"
                   >
                     <Link to={`/diary-notes/${101}`}>
                       <button type="button" class="btn btn-warning">
