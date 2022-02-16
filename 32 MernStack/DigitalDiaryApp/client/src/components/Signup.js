@@ -35,7 +35,7 @@ function Signup() {
           pic,
         });
 
-        localStorage.setItem("userInfo", JSON.stringify(data));
+        // localStorage.setItem("userInfo", JSON.stringify(data));
         setLoading(false);
         setError(null);
         setSuccess("Account created successfully! Now we can login...");

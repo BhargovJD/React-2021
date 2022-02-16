@@ -1,50 +1,53 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "./../actions/userAction";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // useEffect(()=>{
-  //   const userInfo = localStorage.getItem("userInfo")
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
 
-  //   if(userInfo){
-  //     navigate("/diary-notes");
-  //   }
-  // },[navigate])
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/diary-notes");
+    }
+  }, [navigate, userInfo]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      setLoading(true);
-      const { data } = await axios.post(
-        "http://localhost:5000/api/users/login",
-        {
-          email,
-          password,
-        }
-      );
+    dispatch(login(email, password));
 
-      console.log(data);
-      localStorage.setItem("userInfo", JSON.stringify(data));
-      setLoading(false);
-      setError(false);
-    } catch (err) {
-      //   console.log(err);
-      if (err) {
-        const er = "Something went wrong...";
-        console.log(er, err);
-        setLoading(false);
-        setError(true);
-      }
-    }
+    // try {
+    //   setLoading(true);
+    //   const { data } = await axios.post(
+    //     "http://localhost:5000/api/users/login",
+    //     {
+    //       email,
+    //       password,
+    //     }
+    //   );
+
+    //   console.log(data);
+    //   localStorage.setItem("userInfo", JSON.stringify(data));
+    //   setLoading(false);
+    //   setError(false);
+    // } catch (err) {
+    //   //   console.log(err);
+    //   if (err) {
+    //     const er = "Something went wrong...";
+    //     console.log(er, err);
+    //     setLoading(false);
+    //     setError(true);
+    //   }
+    // }
   };
 
   return (
@@ -80,7 +83,7 @@ function Login() {
 
               {error ? (
                 <div class="alert alert-danger" role="alert">
-                  Invalid email or password
+                  {error}
                 </div>
               ) : (
                 ""

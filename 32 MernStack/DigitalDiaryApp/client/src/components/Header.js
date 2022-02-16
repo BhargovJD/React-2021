@@ -1,9 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../actions/userAction";
 
 function Header() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+
+  const logoutHandler = () => {
+    dispatch(logout());
+    navigate("/")
+  };
 
   return (
     <div>
@@ -59,10 +69,7 @@ function Header() {
 
                   <li>
                     <a
-                      onClick={() => {
-                        localStorage.removeItem("userInfo");
-                        navigate("/");
-                      }}
+                      onClick={logoutHandler}
                       className="dropdown-item"
                       href="#"
                     >
