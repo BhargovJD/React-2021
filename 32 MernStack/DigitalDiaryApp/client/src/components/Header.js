@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 function Header() {
+  const navigate = useNavigate();
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -55,7 +58,14 @@ function Header() {
                   </li>
 
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <a
+                      onClick={() => {
+                        localStorage.removeItem("userInfo");
+                        navigate("/");
+                      }}
+                      className="dropdown-item"
+                      href="#"
+                    >
                       Logout
                     </a>
                   </li>

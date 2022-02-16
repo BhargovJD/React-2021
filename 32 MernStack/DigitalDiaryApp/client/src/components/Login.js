@@ -1,11 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  
+
+  const navigate = useNavigate();
+
+  // useEffect(()=>{
+  //   const userInfo = localStorage.getItem("userInfo")
+
+  //   if(userInfo){
+  //     navigate("/diary-notes");
+  //   }
+  // },[navigate])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,13 +35,13 @@ function Login() {
       console.log(data);
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
-      setError(false)
+      setError(false);
     } catch (err) {
       //   console.log(err);
       if (err) {
         const er = "Something went wrong...";
         console.log(er, err);
-        setLoading(false)
+        setLoading(false);
         setError(true);
       }
     }
@@ -66,6 +78,14 @@ function Login() {
                 />
               </div>
 
+              {error ? (
+                <div class="alert alert-danger" role="alert">
+                  Invalid email or password
+                </div>
+              ) : (
+                ""
+              )}
+
               {loading ? (
                 <div class="spinner-border text-primary" role="status">
                   <span class="visually-hidden">Loading...</span>
@@ -74,16 +94,6 @@ function Login() {
                 <button type="submit" className="btn btn-success">
                   Login
                 </button>
-              )}
-
-
-
-              {error ? (
-                <div class="alert alert-danger" role="alert">
-                  Invalid email or password
-                </div>
-              ) : (
-                ""
               )}
             </form>
           </div>
