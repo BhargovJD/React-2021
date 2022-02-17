@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/userAction";
 
-function Header() {
+function Header({ setSearch }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -12,7 +12,7 @@ function Header() {
 
   const logoutHandler = () => {
     dispatch(logout());
-    navigate("/")
+    navigate("/");
   };
 
   return (
@@ -54,7 +54,7 @@ function Header() {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Bhargov
+                  
                 </a>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
@@ -85,6 +85,7 @@ function Header() {
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
+                onChange={(e) => setSearch(e.target.value)}
               />
               <button className="btn btn-outline-success" type="submit">
                 Search

@@ -78,39 +78,43 @@ export const createNoteAction =
     }
   };
 
-// export const deleteNoteAction = (id) => async (dispatch, getState) => {
-//   try {
-//     dispatch({
-//       type: NOTES_DELETE_REQUEST,
-//     });
+//   DELETE
+export const deleteNoteAction = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: "NOTES_DELETE_REQUEST",
+    });
 
-//     const {
-//       userLogin: { userInfo },
-//     } = getState();
+    const {
+      userLogin: { userInfo },
+    } = getState();
 
-//     const config = {
-//       headers: {
-//         Authorization: `Bearer ${userInfo.token}`,
-//       },
-//     };
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
 
-//     const { data } = await axios.delete(`/api/notes/${id}`, config);
+    const { data } = await axios.delete(
+      `http://localhost:5000/api/diary-notes/${id}`,
+      config
+    );
 
-//     dispatch({
-//       type: NOTES_DELETE_SUCCESS,
-//       payload: data,
-//     });
-//   } catch (error) {
-//     const message =
-//       error.response && error.response.data.message
-//         ? error.response.data.message
-//         : error.message;
-//     dispatch({
-//       type: NOTES_DELETE_FAIL,
-//       payload: message,
-//     });
-//   }
-// };
+    dispatch({
+      type: "NOTES_DELETE_SUCCESS",
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({
+      type: "NOTES_DELETE_FAIL",
+      payload: message,
+    });
+  }
+};
 
 // EDIT
 export const updateNoteAction =

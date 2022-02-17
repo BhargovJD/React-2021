@@ -6,6 +6,7 @@ import {
   noteListReducer,
   noteCreateReducer,
   noteUpdateReducer,
+  noteDeleteReducer,
 } from "./reducers/notesReducers";
 
 const reducer = combineReducers({
@@ -13,6 +14,7 @@ const reducer = combineReducers({
   noteList: noteListReducer,
   noteCreate: noteCreateReducer,
   noteUpdate: noteUpdateReducer,
+  noteDelete: noteDeleteReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

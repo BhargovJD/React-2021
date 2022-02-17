@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { updateNoteAction } from "../actions/notesAction";
+import { useNavigate } from "react-router-dom";
 
 function Edit() {
   const [title, setTitle] = useState("");
@@ -9,6 +11,7 @@ function Edit() {
   const [category, setCategory] = useState("");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const noteUpdate = useSelector((state) => state.noteUpdate);
   const { loading, error } = noteUpdate;
@@ -31,7 +34,7 @@ function Edit() {
         config
       );
 
-      console.log(data.note)
+      console.log(data.note);
 
       setTitle(data.note.title);
       setContent(data.note.content);
@@ -41,18 +44,12 @@ function Edit() {
     fetching();
   }, [id]);
 
-  console.log(title, content, category)
-
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(title, content, category);
-    // console.log(title, content, category);
-    // if ((!title, !content, !category)) {
-    //   return;
-    // }
-    // dispatch(createNoteAction(title, content, category));
+    dispatch(updateNoteAction(id, title, content, category));
+    if (!title || !content || !category) return;
 
-    // navigate("/diary-notes");
+    navigate("/diary-notes");
   };
   return (
     <div className="container">
@@ -67,7 +64,6 @@ function Edit() {
                 onChange={(e) => setTitle(e.target.value)}
                 type="text"
                 class="form-control"
-                id=""
                 aria-describedby=""
               />
             </div>
@@ -78,7 +74,6 @@ function Edit() {
                 onChange={(e) => setContent(e.target.value)}
                 type="text"
                 class="form-control"
-                id=""
                 aria-describedby=""
               />
             </div>
@@ -89,7 +84,6 @@ function Edit() {
                 onChange={(e) => setCategory(e.target.value)}
                 type="text"
                 class="form-control"
-                id=""
                 aria-describedby=""
               />
             </div>
