@@ -3,49 +3,73 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Edit from "./Edit";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { listNotes } from "./../actions/notesAction";
+import { useNavigate } from "react-router-dom";
 
 function MyNote() {
-  const [notes, setNotes] = useState([]);
+  const dispatch = useDispatch();
+  const noteList = useSelector((state) => state.noteList);
+  const { loading, notes, error } = noteList;
 
-  const fetchNotes = async () => {
-    const { data } = await axios.get(
-      "https://jsonplaceholder.typicode.com/posts"
-    );
-    setNotes(data);
-  };
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
-  console.log(notes);
+  // To update automatically
+  const noteCreate = useSelector((state) => state.noteCreate);
+  const { success: successCreate } = noteCreate;
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchNotes();
-  }, []);
+    if (!userInfo) {
+      navigate("/");
+    }
+    dispatch(listNotes());
+  }, [dispatch, successCreate, ]);
 
   return (
     <div>
       <div className="container">
-        <h1>Welcome Back Bhargov</h1>
+        <h1>Welcome Back {userInfo ? userInfo.name : ""}</h1>
         <hr></hr>
 
-        <button type="button" class="btn btn-success">
-          Create new diary note
-        </button>
+        <Link to="/create-diary-note">
+          <button type="button" class="btn btn-success">
+            Create new diary note
+          </button>
+        </Link>
+
         <hr></hr>
       </div>
 
-      {notes.map((note) => (
-        <div key={note.id} className="container ">
+      {loading ? (
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      ) : (
+        ""
+      )}
+      {error ? "Failed to fetch data" : ""}
+
+      {notes?.reverse().map((note) => (
+        <div key={note._id} id={note._id} className="container ">
           <div className="row">
             <div className="col ">
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">{note.title}</h5>
+                  <p>
+                    <i>{new Date(note.createdAt).toDateString()}</i>
+                  </p>
                   <p class="card-text">{note.content}</p>
                   <div
                     class="btn-group"
                     role="group"
                     aria-label="Basic mixed styles example d-flex justify-content-between"
                   >
-                    <Link to={`/diary-notes/${101}`}>
+                    <Link to={`/diary-notes/${note._id}`}>
                       <button type="button" class="btn btn-warning">
                         Edit
                       </button>
