@@ -9,7 +9,7 @@ function Home() {
         <div className="row">
           <h1>Latest Products</h1>
           {products.map((p) => (
-            <div key={p._id} className="col-md-4 col-sm-6  py-3">
+            <div key={p._id} className="col-md-4 col-sm-6 col-6  py-3">
               {/* {p.name} */}
               <Product product={p} />
             </div>

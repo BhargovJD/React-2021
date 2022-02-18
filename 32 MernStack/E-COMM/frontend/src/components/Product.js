@@ -10,14 +10,13 @@ function Product({ product }) {
           <img src={product.image} className="card-img-top" alt="..." />
         </Link>
         <div className="card-body">
-          <Link style={{textDecoration:"none"}} to={`/product/${product._id}`}>
+          <Link
+            style={{ textDecoration: "none" }}
+            to={`/product/${product._id}`}
+          >
             <h5 className="card-title">{product.name}</h5>
           </Link>
 
-          <span className="badge bg-light text-dark">
-            Reviews: {product.numReviews}
-          </span>
-          <br></br>
           <span className="badge bg-light text-dark">
             Rating: {product.rating}
           </span>
@@ -27,15 +26,21 @@ function Product({ product }) {
             Reviews: {product.numReviews}
           </span>
 
+          <span className="badge bg-warning text-white">
+            {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
+          </span>
+
           <br></br>
           <span className="badge bg-light text-dark">
             <h6>Price: Rupees {product.price} /- only</h6>
           </span>
 
           <br></br>
-          <button type="button" className="btn btn-success btn-sm">
-            Order Now
-          </button>
+          <Link to={`/product/${product._id}`}>
+            <button type="button" className="btn btn-success btn-sm mb-1">
+              VIEW ITEM
+            </button>
+          </Link>
         </div>
       </div>
     </div>
