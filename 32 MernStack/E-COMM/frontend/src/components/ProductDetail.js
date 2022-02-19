@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import products from "../products";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 function ProductDetail() {
   const { id } = useParams();
 
-  const product = products.find((p) => p._id === id);
+  const [product, setProduct] = useState({});
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await axios.get(`/api/products/${id}`);
+
+      setProduct(data);
+    };
+    fetchProduct();
+  }, []);
 
   return (
     <div className="container">
@@ -54,21 +63,42 @@ function ProductDetail() {
                 </span>
 
                 <br></br>
-                <button
+                <div className="row">
+                  <div className="col text-center">
+                    <button
+                      type="button"
+                      disabled={product.countInStock === 0}
+                      className="btn btn-primary btn-sm mb-1"
+                    >
+                      ORDER NOW
+                    </button>
+                  </div>
+                  <div className="col text-center">
+                    <button
+                      type="button"
+                      disabled={product.countInStock === 0}
+                      className="btn btn-success text-white btn-sm"
+                    >
+                      ADD TO CART
+                    </button>
+                  </div>
+                </div>
+
+                {/* <button
                   type="button"
                   disabled={product.countInStock === 0}
                   className="btn btn-primary btn-sm mb-1"
                 >
                   ORDER NOW
-                </button>
-                <br></br>
+                </button> */}
+                {/* <br></br>
                 <button
                   type="button"
                   disabled={product.countInStock === 0}
                   className="btn btn-success text-white btn-sm"
                 >
                   ADD TO CART
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
