@@ -1,26 +1,25 @@
 import express from "express";
-import products from "./data/products.js";
 import dotenv from "dotenv";
+import connDB from "./config/db.js";
+import colors from "colors";
 
 dotenv.config();
 const app = express();
+connDB();
 
 app.get("/", (req, res) => {
   res.send("Home page");
 });
 
-app.get("/api/products", (req, res) => {
-  res.json(products);
-});
+import productRoute from "./routes/product-routes.js";
 
-app.get("/api/products/:id", (req, res) => {
-  const product = products.find((p) => p._id === req.params.id);
-  res.json(product);
-});
+app.use("/api/products", productRoute);
 
 const PORT = process.env.PORT || 5000;
 
 app.listen(
   PORT,
-  console.log(`Server running in ${process.env.NODE_ENV} on port ${PORT}`)
+  console.log(
+    `Server running in ${process.env.NODE_ENV} on port ${PORT}`.yellow.bold
+  )
 );
