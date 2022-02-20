@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import connDB from "./config/db.js";
 import colors from "colors";
-import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+import createError from "http-errors";
 
 dotenv.config();
 const app = express();
@@ -20,8 +20,18 @@ app.get("/", (req, res) => {
 import productRoute from "./routes/product-routes.js";
 
 app.use("/api/products", productRoute);
-app.use(notFound);
-app.use(errorHandler);
+
+app.use((error, req, res, next) => {
+  res.status(error.status || 500);
+
+  res.send({
+    error: {
+      status: error.status || 500,
+      message: error.message,
+    },
+  });
+  
+});
 
 const PORT = process.env.PORT || 5000;
 
