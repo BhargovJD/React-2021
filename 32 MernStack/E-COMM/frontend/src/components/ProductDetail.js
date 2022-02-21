@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { listSingleProduct } from "./../actions/single-product-action";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 function ProductDetail() {
+  const [qty, setQty] = useState(1);
   const dispatch = useDispatch();
 
   const productDetailReducer = useSelector(
@@ -15,6 +17,8 @@ function ProductDetail() {
 
   const { loading, product, error } = productDetailReducer;
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   useEffect(
     () => {
@@ -25,6 +29,11 @@ function ProductDetail() {
   );
 
   // console.log(error);
+  // console.log(qty);
+
+  const addToCart = () => {
+    navigate(`/cart/${id}?qty=${qty}`)
+  };
 
   return (
     <div className="container">
@@ -75,12 +84,26 @@ function ProductDetail() {
                   </p>
 
                   <span className="badge bg-light text-dark">
-                    <h6>Price: Rupees {product.price} /- only</h6>
+                    <h6>Price: Rupees {((product.price)*qty).toFixed(2)} /- only</h6>
                   </span>
+
+                  {product.countInStock > 0 && (
+                    <select
+                      class="form-select"
+                      aria-label="Default select example"
+                      onChange={(e) => setQty(e.target.value)}
+                    >
+                      {[...Array(product.countInStock).keys()].map((x) => (
+                        <option key={x + 1} value={x + 1}>
+                          {x + 1}
+                        </option>
+                      ))}
+                    </select>
+                  )}
 
                   <br></br>
                   <div className="row">
-                    <div className="col text-center">
+                    <div className="col">
                       <button
                         type="button"
                         disabled={product.countInStock === 0}
@@ -89,15 +112,16 @@ function ProductDetail() {
                         ORDER NOW
                       </button>
                     </div>
-                    <div className="col text-center">
+                    {/* <div className="col">
                       <button
+                        onClick={addToCart}
                         type="button"
                         disabled={product.countInStock === 0}
                         className="btn btn-success text-white btn-sm"
                       >
                         ADD TO CART
                       </button>
-                    </div>
+                    </div> */}
                   </div>
 
                   {/* <button

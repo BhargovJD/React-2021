@@ -4,8 +4,9 @@ import Header from "./components/Header";
 import Home from "./components/Home";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ProductDetail from './components/ProductDetail';
-import PageNotFound from './components/PageNotFound';
+import ProductDetail from "./components/ProductDetail";
+import PageNotFound from "./components/PageNotFound";
+import Cart from "./components/Cart";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<ProductDetail />} />
+
           <Route path="*" element={<PageNotFound />} />
         </Routes>
 

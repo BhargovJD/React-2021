@@ -7,6 +7,7 @@ import createError from "http-errors";
 dotenv.config();
 const app = express();
 connDB();
+app.use(express.json())
 
 // app.use((req,res,next)=>{
 //   console.log('hello')
@@ -18,8 +19,10 @@ app.get("/", (req, res) => {
 });
 
 import productRoute from "./routes/product-routes.js";
+import userRoute from "./routes/user-routes.js";
 
 app.use("/api/products", productRoute);
+app.use("/api/users", userRoute);
 
 app.use((error, req, res, next) => {
   res.status(error.status || 500);
@@ -30,7 +33,6 @@ app.use((error, req, res, next) => {
       message: error.message,
     },
   });
-  
 });
 
 const PORT = process.env.PORT || 5000;

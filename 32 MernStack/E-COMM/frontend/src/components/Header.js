@@ -24,15 +24,15 @@ function Header() {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <Link style={{ textDecoration: "none" }} to={"/cart"}>
-                  <a className="nav-link " aria-current="page" >
+                  <a className="nav-link " aria-current="page">
                     CART <i className="bi bi-bag-check-fill"></i>
                   </a>
                 </Link>
               </li>
 
               <li className="nav-item">
-                <Link to={'/login'} style={{ textDecoration: "none" }}>
-                  <a className="nav-link " aria-current="page" >
+                <Link to={"/login"} style={{ textDecoration: "none" }}>
+                  <a className="nav-link " aria-current="page">
                     SIGN IN <i className="bi bi-person-circle"></i>
                   </a>
                 </Link>
