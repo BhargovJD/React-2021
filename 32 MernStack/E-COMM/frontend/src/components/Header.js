@@ -1,7 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {logout} from '../actions/login-actions'
 
 function Header() {
+  const loginReducer = useSelector((state) => state.loginReducer);
+  const { loading, error, userInfo } = loginReducer;
+
+  const dispatch = useDispatch()
+
+  const navigate = useNavigate();
+
+  const logoutHandler = () => {
+   dispatch(logout())
+   navigate("/login")
+  };
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -22,54 +37,59 @@ function Header() {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link style={{ textDecoration: "none" }} to={"/cart"}>
                   <a className="nav-link " aria-current="page">
                     CART <i className="bi bi-bag-check-fill"></i>
                   </a>
                 </Link>
-              </li>
+              </li> */}
 
-              <li className="nav-item">
-                <Link to={"/login"} style={{ textDecoration: "none" }}>
-                  <a className="nav-link " aria-current="page">
-                    SIGN IN <i className="bi bi-person-circle"></i>
+              {userInfo ? (
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    {userInfo.name}
                   </a>
-                </Link>
-              </li>
-
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Dropdown
-                </a>
-                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Action
+                  <ul
+                    className="dropdown-menu"
+                    aria-labelledby="navbarDropdown"
+                  >
+                    <Link to="/profile" style={{ textDecoration: "none" }}>
+                      <li>
+                        <a className="dropdown-item">Profile</a>
+                      </li>
+                    </Link>
+                    <li>
+                      <hr className="dropdown-divider" />
+                    </li>
+                    <Link to="/login" style={{ textDecoration: "none" }}>
+                      <li>
+                        <a
+                          onClick={logoutHandler}
+                          className="dropdown-item text-danger"
+                        >
+                          Logout
+                        </a>
+                      </li>
+                    </Link>
+                  </ul>
+                </li>
+              ) : (
+                <li className="nav-item">
+                  <Link to={"/login"} style={{ textDecoration: "none" }}>
+                    <a className="nav-link " aria-current="page">
+                      LOG IN <i className="bi bi-person-circle"></i>
                     </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Another action
-                    </a>
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                  </li>
-                </ul>
-              </li>
+                  </Link>
+                </li>
+              )}
             </ul>
             <form className="d-flex">
               <input
@@ -88,5 +108,4 @@ function Header() {
     </div>
   );
 }
-
 export default Header;

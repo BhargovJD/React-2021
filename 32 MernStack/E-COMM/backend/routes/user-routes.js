@@ -29,16 +29,6 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-// Get user profile
-router.get("/profile", protect, async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user._id);
-    res.json(user);
-  } catch (error) {
-    next(createError(404, "User not found"));
-  }
-});
-
 // Signup
 router.post("/signup", async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -66,5 +56,25 @@ router.post("/signup", async (req, res, next) => {
     createError(400, "Invalid user data");
   }
 });
+
+// Get user profile
+router.get("/profile", protect, async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+    res.json(user);
+  } catch (error) {
+    next(createError(404, "User not found"));
+  }
+});
+
+// Update user profile
+// router.put("/profile", protect, async (req, res, next) => {
+//   try {
+//     const user = await User.findById(req.user._id);
+//     res.json(user);
+//   } catch (error) {
+//     next(createError(404, "User not found"));
+//   }
+// });
 
 export default router;
