@@ -7,7 +7,7 @@ import createError from "http-errors";
 dotenv.config();
 const app = express();
 connDB();
-app.use(express.json())
+app.use(express.json());
 
 // app.use((req,res,next)=>{
 //   console.log('hello')
@@ -20,9 +20,11 @@ app.get("/", (req, res) => {
 
 import productRoute from "./routes/product-routes.js";
 import userRoute from "./routes/user-routes.js";
+import orderRoute from "./routes/order-routes.js";
 
 app.use("/api/products", productRoute);
 app.use("/api/users", userRoute);
+app.use("/api/orders", orderRoute);
 
 app.use((error, req, res, next) => {
   res.status(error.status || 500);

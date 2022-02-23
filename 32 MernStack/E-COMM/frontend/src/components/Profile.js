@@ -28,12 +28,12 @@ function Profile() {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-6">
+        <div className="col-md-6">
           <h3>Profile information</h3>
           <h5 className="text-secondary">Name: {name}</h5>
           <h5 className="text-secondary">Email: {email}</h5>
         </div>
-        <div className="col-6">
+        <div className="col-md-6">
           <h3>Order Information</h3>
         </div>
       </div>

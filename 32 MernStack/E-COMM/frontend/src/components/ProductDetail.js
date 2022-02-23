@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 import { listSingleProduct } from "./../actions/single-product-action";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 function ProductDetail() {
   const [qty, setQty] = useState(1);
+  let [price, setPrice] = useState(0);
   const dispatch = useDispatch();
 
   const productDetailReducer = useSelector(
@@ -28,11 +29,55 @@ function ProductDetail() {
     [id]
   );
 
-  // console.log(error);
-  // console.log(qty);
+  //for payment
+  const [user, setUser] = useState("");
+  const [orderItems, setOrderItems] = useState({});
 
-  const addToCart = () => {
-    navigate(`/cart/${id}?qty=${qty}`)
+  const [address, setAddrees] = useState("");
+  const [city, setCity] = useState("");
+  const [postalAddress, setPostalAddress] = useState("");
+  const [country, setCountry] = useState("");
+
+  const [payment, setPayment] = useState("");
+  const [totalPrice, setTotalPrice] = useState("");
+
+  const loginReducer = useSelector((state) => state.loginReducer);
+  const { userInfo } = loginReducer;
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${userInfo.token}`,
+    },
+  };
+
+  const handleSubmitt = async (e) => {
+    e.preventDefault();
+
+    try {
+      await axios.post("/api/orders", {
+        //    user: req.user._id,
+        // orderItems,
+        // shippingAddress,
+        // payment,
+        // totalPrice,
+        user: userInfo.id,
+        orderItems: {
+          product: id,
+        },
+        shippingAddress: {
+          address: address,
+          city: city,
+          postalAddress: postalAddress,
+          country: country,
+        },
+        payment: "Paypal",
+        totalPrice: 13,
+      });
+    } catch (error) {
+      // error.response.data.error.message;
+      // setEr(error.response.data.error.message);
+      console.log(error);
+    }
   };
 
   return (
@@ -83,8 +128,16 @@ function ProductDetail() {
                     {product.description}
                   </p>
 
+                  {/* {
+                  setPrice = ((product.price * qty).toFixed(2))
+
+                  } */}
+
                   <span className="badge bg-light text-dark">
-                    <h6>Price: Rupees {((product.price)*qty).toFixed(2)} /- only</h6>
+                    <h6>
+                      Price: Rupees{": "}
+                      {(setPrice = (product.price * qty).toFixed(2))} /- only
+                    </h6>
                   </span>
 
                   {product.countInStock > 0 && (
@@ -100,45 +153,70 @@ function ProductDetail() {
                       ))}
                     </select>
                   )}
-
-                  <br></br>
-                  <div className="row">
-                    <div className="col">
-                      <button
-                        type="button"
-                        disabled={product.countInStock === 0}
-                        className="btn btn-primary btn-sm mb-1"
-                      >
-                        ORDER NOW
-                      </button>
+                  <hr></hr>
+                  <form onSubmit={handleSubmitt}>
+                    <h5>Shipping details</h5>
+                    <h6>Shipping address</h6>
+                    <div class="mb-3">
+                      <input
+                        onChange={(e) => setAddrees(e.target.value)}
+                        value={address}
+                        placeholder="Address"
+                        type="name"
+                        class="form-control"
+                        id=""
+                        aria-describedby=""
+                      />
                     </div>
-                    {/* <div className="col">
-                      <button
-                        onClick={addToCart}
-                        type="button"
-                        disabled={product.countInStock === 0}
-                        className="btn btn-success text-white btn-sm"
-                      >
-                        ADD TO CART
-                      </button>
-                    </div> */}
-                  </div>
 
-                  {/* <button
-                  type="button"
-                  disabled={product.countInStock === 0}
-                  className="btn btn-primary btn-sm mb-1"
-                >
-                  ORDER NOW
-                </button> */}
-                  {/* <br></br>
-                <button
-                  type="button"
-                  disabled={product.countInStock === 0}
-                  className="btn btn-success text-white btn-sm"
-                >
-                  ADD TO CART
-                </button> */}
+                    <div class="mb-3">
+                      <input
+                        onChange={(e) => setCity(e.target.value)}
+                        value={city}
+                        placeholder="City"
+                        class="form-control"
+                        id=""
+                        aria-describedby=""
+                      />
+                    </div>
+
+                    <div class="mb-3">
+                      <input
+                        onChange={(e) => setPostalAddress(e.target.value)}
+                        value={postalAddress}
+                        placeholder="Postal address"
+                        type="name"
+                        class="form-control"
+                        id=""
+                        aria-describedby=""
+                      />
+                    </div>
+
+                    <div class="mb-3">
+                      <input
+                        onChange={(e) => setCountry(e.target.value)}
+                        value={country}
+                        placeholder="Country"
+                        type="name"
+                        class="form-control"
+                        id=""
+                        aria-describedby=""
+                      />
+                    </div>
+
+                    <br></br>
+                    <div className="row">
+                      <div className="col">
+                        <button
+                          type="submit"
+                          disabled={product.countInStock === 0}
+                          className="btn btn-primary btn-sm mb-1"
+                        >
+                          PLACE ORDER
+                        </button>
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
