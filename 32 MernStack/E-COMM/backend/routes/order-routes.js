@@ -6,7 +6,7 @@ import createError from "http-errors";
 import mongoose from "mongoose";
 import protect from "./../middleware/auth-middleware.js";
 
-router.post("/",  async (req, res, next) => {
+router.post("/", protect, async (req, res, next) => {
   const { user, orderItems, shippingAddress, payment, totalPrice } = req.body;
 
   try {

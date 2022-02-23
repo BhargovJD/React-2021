@@ -26,6 +26,10 @@ function Product({ product }) {
             Reviews: {product.numReviews}
           </span>
 
+          <span className="badge bg-light text-dark">
+            Brand: {product.brand}
+          </span>
+
           <span className="badge bg-warning text-white">
             {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
           </span>

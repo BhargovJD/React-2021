@@ -39,7 +39,7 @@ function ProductDetail() {
   const [country, setCountry] = useState("");
 
   const [payment, setPayment] = useState("");
-  const [totalPrice, setTotalPrice] = useState("");
+  var [totalPrice, setTotalPrice] = useState();
 
   const loginReducer = useSelector((state) => state.loginReducer);
   const { userInfo } = loginReducer;
@@ -54,25 +54,32 @@ function ProductDetail() {
     e.preventDefault();
 
     try {
-      await axios.post("/api/orders", {
-        //    user: req.user._id,
-        // orderItems,
-        // shippingAddress,
-        // payment,
-        // totalPrice,
-        user: userInfo.id,
-        orderItems: {
-          product: id,
+      const { data } = await axios.post(
+        "/api/orders",
+        {
+          user: userInfo.id,
+
+          orderItems: {
+            product_id: product._id,
+            name: product.name,
+            image: product.image,
+            qty: qty,
+            price: price,
+          },
+          shippingAddress: {
+            address: address,
+            city: city,
+            postalAddress: postalAddress,
+            country: country,
+          },
+          payment: "Paypal",
+
+          totalPrice: (product.price * qty).toFixed(2),
         },
-        shippingAddress: {
-          address: address,
-          city: city,
-          postalAddress: postalAddress,
-          country: country,
-        },
-        payment: "Paypal",
-        totalPrice: 13,
-      });
+        config
+      );
+      // console.log(data._id);
+      navigate(`/orders/${data._id}`)
     } catch (error) {
       // error.response.data.error.message;
       // setEr(error.response.data.error.message);
@@ -120,6 +127,10 @@ function ProductDetail() {
                     Reviews: {product.numReviews}
                   </span>
 
+                  <span className="badge bg-light text-dark">
+                    Brand: {product.brand}
+                  </span>
+
                   <span className="badge bg-warning text-white">
                     {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
                   </span>
@@ -136,7 +147,7 @@ function ProductDetail() {
                   <span className="badge bg-light text-dark">
                     <h6>
                       Price: Rupees{": "}
-                      {(setPrice = (product.price * qty).toFixed(2))} /- only
+                      {(product.price * qty).toFixed(2)} /- only
                     </h6>
                   </span>
 
@@ -202,6 +213,21 @@ function ProductDetail() {
                         id=""
                         aria-describedby=""
                       />
+                    </div>
+
+                    <h6>Payment Method</h6>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="flexCheckCheckedDisabled"
+                        checked
+                        disabled
+                      />
+                      <label class=" text-primary" for="">
+                        PayPal
+                      </label>
                     </div>
 
                     <br></br>
