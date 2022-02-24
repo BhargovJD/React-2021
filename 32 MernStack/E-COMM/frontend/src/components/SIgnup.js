@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,10 +40,10 @@ function SIgnup() {
     <div className="container">
       <div className="row">
         <div className="col">
-          {er ? <h1>{er}</h1> : ""}
           <h1 className="text-center">Signup</h1>
           <form onSubmit={handleSubmit}>
             <div class="mb-3">
+              {er ? <h5 className="text-danger">{er}</h5> : ""}
               <input
                 onChange={(e) => setName(e.target.value)}
                 value={name}

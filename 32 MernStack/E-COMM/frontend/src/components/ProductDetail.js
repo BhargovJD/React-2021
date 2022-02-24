@@ -8,6 +8,9 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 function ProductDetail() {
+
+
+
   const [qty, setQty] = useState(1);
   let [price, setPrice] = useState(0);
   const dispatch = useDispatch();
