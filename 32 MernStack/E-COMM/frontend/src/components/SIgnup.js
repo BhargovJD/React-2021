@@ -45,6 +45,7 @@ function SIgnup() {
             <div class="mb-3">
               {er ? <h5 className="text-danger">{er}</h5> : ""}
               <input
+                required
                 onChange={(e) => setName(e.target.value)}
                 value={name}
                 placeholder="Name"
@@ -56,6 +57,7 @@ function SIgnup() {
             </div>
             <div class="mb-3">
               <input
+                required
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
                 placeholder="Email address"
@@ -67,6 +69,7 @@ function SIgnup() {
             </div>
             <div class="mb-3">
               <input
+                required
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 placeholder="Password"

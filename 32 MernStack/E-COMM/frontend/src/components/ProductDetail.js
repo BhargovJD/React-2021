@@ -8,9 +8,6 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 function ProductDetail() {
-
-
-
   const [qty, setQty] = useState(1);
   let [price, setPrice] = useState(0);
   const dispatch = useDispatch();
@@ -82,7 +79,7 @@ function ProductDetail() {
         config
       );
       // console.log(data._id);
-      navigate(`/orders/${data._id}`)
+      navigate(`/orders/${data._id}`);
     } catch (error) {
       // error.response.data.error.message;
       // setEr(error.response.data.error.message);
@@ -173,6 +170,7 @@ function ProductDetail() {
                     <h6>Shipping address</h6>
                     <div class="mb-3">
                       <input
+                        required
                         onChange={(e) => setAddrees(e.target.value)}
                         value={address}
                         placeholder="Address"
@@ -185,6 +183,7 @@ function ProductDetail() {
 
                     <div class="mb-3">
                       <input
+                        required
                         onChange={(e) => setCity(e.target.value)}
                         value={city}
                         placeholder="City"
@@ -196,6 +195,7 @@ function ProductDetail() {
 
                     <div class="mb-3">
                       <input
+                        required
                         onChange={(e) => setPostalAddress(e.target.value)}
                         value={postalAddress}
                         placeholder="Postal address"
@@ -208,6 +208,7 @@ function ProductDetail() {
 
                     <div class="mb-3">
                       <input
+                        required
                         onChange={(e) => setCountry(e.target.value)}
                         value={country}
                         placeholder="Country"

@@ -33,7 +33,7 @@ function Login() {
           <form onSubmit={handleSubmit}>
             <div class="mb-3">
               {error ? <h5 className="text-danger">{error}</h5> : ""}
-              <input
+              <input required
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
                 placeholder="Email address"
@@ -44,7 +44,7 @@ function Login() {
               />
             </div>
             <div class="mb-3">
-              <input
+              <input required
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 placeholder="Password"
