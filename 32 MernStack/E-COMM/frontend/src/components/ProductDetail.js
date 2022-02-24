@@ -226,7 +226,7 @@ function ProductDetail() {
                         disabled
                       />
                       <label class=" text-primary" for="">
-                        PayPal
+                        Cash on delivery
                       </label>
                     </div>
 

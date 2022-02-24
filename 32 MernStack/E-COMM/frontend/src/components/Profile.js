@@ -6,8 +6,12 @@ import { useNavigate } from "react-router-dom";
 function Profile() {
   const loginReducer = useSelector((state) => state.loginReducer);
   const { loading, error, userInfo } = loginReducer;
+
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+
+
   const config = {
     headers: {
       Authorization: `Bearer ${userInfo.token}`,
@@ -19,10 +23,11 @@ function Profile() {
   useEffect(() => {
     const fetchPosts = async () => {
       const data = await axios.get("api/users/profile", config);
-      console.log(data.data);
+      // console.log(data.data);
       setName(data.data.name);
       setEmail(data.data.email);
     };
+
     fetchPosts();
   }, []);
   return (

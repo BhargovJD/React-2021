@@ -12,6 +12,8 @@ import SIgnup from "./components/SIgnup";
 import Profile from "./components/Profile";
 
 import { useDispatch, useSelector } from "react-redux";
+import OrderDetail from "./components/OrderDetail";
+import MyOrders from "./components/MyOrders";
 
 function App() {
   const loginReducer = useSelector((state) => state.loginReducer);
@@ -30,6 +32,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SIgnup />} />
           <Route path="/profile" element={userInfo ? <Profile /> : <Login />} />
+
+          <Route path="/orders/:id" element={<OrderDetail />} />
+          <Route path="/myorders" element={<MyOrders />} />
 
           <Route path="*" element={<PageNotFound />} />
         </Routes>
